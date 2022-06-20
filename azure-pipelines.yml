@@ -43,7 +43,7 @@ stages:
   
     
 - stage: 'deployment'
-  jobs:
+ 
   steps:
    - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy Azure App Service'
