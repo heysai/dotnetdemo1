@@ -56,7 +56,7 @@ stages:
       name: batch26
   
   # Records deployment against bookings resource - Kubernetes namespace.
-  environment: 'Dev'
+ # environment: 'Dev'
   strategy: 
     runOnce:
       deploy:
