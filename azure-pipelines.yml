@@ -41,41 +41,18 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
   
-    # - task: DotNetCoreCLI@2
-    #   displayName: Publish Projects
-    #   inputs:
-    #     command: 'publish'
-    #     publishWebProjects: true
-    #     arguments: '--configuration $(buildConfiguration) -f $(dotNetFramework) --runtime $(targetRuntime) --self-contained -o $(Build.ArtifactStagingDirectory)'
-    #     zipAfterPublish: true
-- stage:
+    
+- stage: 'deployment'
   jobs:
-  - deployment: DeployWeb
-    displayName: deploy Web App
-    pool:
-      name: batch26
+  steps:
+   - task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy Azure App Service'
+  inputs:
+    azureSubscription: '$(Parameters.ConnectedServiceName)'
+    appType: '$(Parameters.WebAppKind)'
+    WebAppName: '$(Parameters.WebAppName)'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/_heysai.dotnetdemo1/drop'
+    StartupCommand: '$(Parameters.StartupCommand)'
+
   
-  # Records deployment against bookings resource - Kubernetes namespace.
- # environment: 'Dev'
-  strategy: 
-    runOnce:
-      deploy:
-        steps:
-          # No need to explicitly pass the connection details.
-      
-        - task: AzureRmWebAppDeployment@4
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'azurecon'
-            appType: 'webAppLinux'
-            WebAppName: 'bermtechdev'
-            packageForLinux: '$(System.DefaultWorkingDirectory)/_heysai.dotnetdemo1/drop'
-
-     
-
-          
-      
-
-    
-    
-
+ 
