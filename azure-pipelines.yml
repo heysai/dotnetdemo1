@@ -48,9 +48,34 @@ stages:
     #     publishWebProjects: true
     #     arguments: '--configuration $(buildConfiguration) -f $(dotNetFramework) --runtime $(targetRuntime) --self-contained -o $(Build.ArtifactStagingDirectory)'
     #     zipAfterPublish: true
-- stage: 'Deploy to dev environment'
+- stage:
   jobs:
-    - job: DevDeploy
+  - deployment: DeployWeb
+    displayName: deploy Web App
+    pool:
+      name: batch26
+  
+  # Records deployment against bookings resource - Kubernetes namespace.
+  environment: 'dev'
+  strategy: 
+    runOnce:
+      deploy:
+        steps:
+          # No need to explicitly pass the connection details.
+      
+        - task: AzureRmWebAppDeployment@4
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: 'azurecon'
+            appType: 'webAppLinux'
+            WebAppName: 'bermtechdev'
+            packageForLinux: '$(System.DefaultWorkingDirectory)/_heysai.dotnetdemo1/drop'
+
+     
+
+          
       
 
     
+    
+
