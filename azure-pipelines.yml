@@ -44,8 +44,8 @@ stages:
     
 - stage: 'deployment'
  
-  steps:
-   - task: AzureRmWebAppDeployment@4
+steps:
+  -task: AzureRmWebAppDeployment@4
   displayName: 'Deploy Azure App Service'
   inputs:
     azureSubscription: '$(Parameters.ConnectedServiceName)'
