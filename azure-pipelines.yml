@@ -43,8 +43,9 @@ stages:
   
     
 - stage: 'deployment'
- 
-  steps:
+  jobs:
+  - job: 'Build'
+    steps:
     - task: AzureRmWebAppDeployment@4
       displayName: 'Deploy Azure App Service'
       inputs:
@@ -53,6 +54,8 @@ stages:
        WebAppName: '$(Parameters.WebAppName)'
        packageForLinux: '$(System.DefaultWorkingDirectory)/_heysai.dotnetdemo1/drop'
        StartupCommand: '$(Parameters.StartupCommand)'
+ 
+  
 
   
  
