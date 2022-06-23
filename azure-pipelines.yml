@@ -1,60 +1,28 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
+- main
 - develop
 - feature/*
-- master
+- bugfix/*
 
 pool:
-  name: batch26
+  name: 'mynewpool'
 
 variables:
-  buildConfiguration: 'Release'
-  dotNetFramework: 'net6.0'
-  dotNetVersion: '6.0.300'
-  targetRuntime: 'linux-x64'
+  repository: 'walmartpaymen'
 
 stages:
 - stage: 'Build'
   jobs:
-  - job: 'Build'
+  - job: 'DockerBuild'
     steps:
-    - script: dotnet build --configuration $(buildConfiguration)
-      displayName: 'dotnet build $(buildConfiguration)'
-
-    - script: dotnet publish -f $(dotNetFramework) -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
-      displayName: Publish Project 
-
- #   - task: Npm@1
- #     displayName: 'Client Tests'
-#      inputs:
- #       command: 'custom'
-#        workingDir: 'ClientApp'
- #       customCommand: 'run test'
-    
-    - task: PublishBuildArtifacts@1
+    - task: Docker@2
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
-  
-    
-- stage: 'deployment'
-  jobs:
-  - job: 'Build'
-    steps:
-    - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy Azure App Service'
-      inputs:
-       azureSubscription: '$(Parameters.ConnectedServiceName)'
-       appType: '$(Parameters.WebAppKind)'
-       WebAppName: '$(Parameters.WebAppName)'
-       packageForLinux: '$(System.DefaultWorkingDirectory)/_heysai.dotnetdemo1/drop'
-       StartupCommand: '$(Parameters.StartupCommand)'
- 
+        containerRegistry: 'dockercon'
+        repository: '$(repository)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |         
+         $(Build.BuildNumber)
   
 
   
