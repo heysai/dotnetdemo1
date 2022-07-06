@@ -8,7 +8,7 @@ pool:
   name: 'mynewpool'
 
 variables:
-  repository: 'walmartpayment'
+  repository: 'walmartpaymen'
 
 stages:
 - stage: 'Build'
