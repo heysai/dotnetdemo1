@@ -35,7 +35,8 @@ stages:
     #     publishLocation: 'Container'
     - task: Docker@2
       inputs:
-        containerRegistry: 'dockercon'
+        #containerRegistry: 'dockercon'
+        containerRegistry: 'newconnectiontodocker'
         repository: '$(repository)'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
