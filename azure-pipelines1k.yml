@@ -26,7 +26,7 @@ stages:
     steps:
       - task: Docker@2
         inputs:
-          containerRegistry: 'mydockerregistry1'
+          containerRegistry: 'newconnectiontodocker'
           repository: '$(repository)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
