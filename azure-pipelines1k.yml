@@ -63,7 +63,7 @@ stages:
                 action: createSecret
                 secretName: $(imagePullSecret)
                 namespace: $(namespace)
-                #dockerRegistryEndpoint: 'ACRDocker'
+                dockerRegistryEndpoint: 'newconnectiontodocker'
               
            - task: KubernetesManifest@0
              displayName: Deploy
