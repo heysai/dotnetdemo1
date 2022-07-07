@@ -44,7 +44,7 @@ stages:
   - deployment: Deploy
     displayName: Deploy to AKS
     pool:
-      name: 'Demo'   
+      name: 'mynewpool'   
     environment: 'Dev'
     strategy:
       runOnce:
